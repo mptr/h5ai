@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  h5ai:
+    container_name: h5ai
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: ${H5AI_PKGNAME}:${H5AI_PKGVERSION}
+    restart: unless-stopped
+    privileged: true # needed for union mount
+    volumes:
+
+      - ~/h5aifiles:/var/userfiles-ro/:ro # set the shared-files location on host (Format: /host/dir:/container/dir)
+      # ^^^^^^^^^^^ set your directory here
+
+#     - ~/h5ai_options.json:/var/h5ai/_h5ai/private/conf/options.json
+      # ^^^^^^^^^^^^^^^^^^^ set your conf file path here (optional)
+      
+    ports:
+      - "8080:80" # exposes the service to port 8080 of the host
+      #  ^^^^ set your port here

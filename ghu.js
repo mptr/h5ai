@@ -155,3 +155,12 @@ ghu.task('release', ['force-production', 'clean', 'build'], 'create a zipball', 
         .then(jszip({dir: BUILD, level: 9}))
         .then(write(target, {overwrite: true}));
 });
+
+ghu.task('docker', ['force-production', 'clean', 'build'], 'create a docker-container', runtime => {
+    const envstr = `H5AI_PKGNAME=${runtime.pkg.name} H5AI_PKGVERSION=${runtime.pkg.version}`;
+    return run(envstr + " docker-compose -f docker/docker-compose.yml build");
+});
+ghu.task('deploy-docker', 'deploy a docker-container', runtime => {
+    const envstr = `H5AI_PKGNAME=${runtime.pkg.name} H5AI_PKGVERSION=${runtime.pkg.version}`;
+    return run(envstr + " docker-compose -f docker/docker-compose.yml up -d");
+});
