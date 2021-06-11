@@ -5,7 +5,6 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    image: ${H5AI_PKGNAME}:${H5AI_PKGVERSION}
     restart: unless-stopped
     privileged: true # needed for union mount
     volumes:
